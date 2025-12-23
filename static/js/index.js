@@ -120,23 +120,36 @@ function setupVideoCarouselAutoplay() {
 }
 
 $(document).ready(function() {
-    // Check for click events on the navbar burger icon
 
     var options = {
-		slidesToScroll: 1,
-		slidesToShow: 1,
-		loop: true,
-		infinite: true,
-		autoplay: true,
-		autoplaySpeed: 5000,
-    }
+        slidesToScroll: 1,
+        slidesToShow: 1,
+        loop: true,
+        infinite: true,
+        autoplay: true,
+        autoplaySpeed: 5000,
+        pauseOnHover: false // 关键：我们自己控制
+    };
 
-	// Initialize all div with carousel class
-    var carousels = bulmaCarousel.attach('.carousel', options);
-	
+    // 初始化 carousel
+    var carousels = bulmaCarousel.attach('#results-carousel-images', options);
+
+    // ==============================
+    // ✅ 新增：鼠标悬停暂停 / 离开继续
+    // ==============================
+    carousels.forEach(function(carousel) {
+        const element = carousel.element;
+
+        element.addEventListener('mouseenter', function () {
+            carousel.pause();
+        });
+
+        element.addEventListener('mouseleave', function () {
+            carousel.play();
+        });
+    });
+
     bulmaSlider.attach();
-    
-    // Setup video autoplay for carousel
     setupVideoCarouselAutoplay();
+});
 
-})
